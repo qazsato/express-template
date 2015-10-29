@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "node-dev ./bin/www & gulp watch"
+    "dev": "node-dev --debug ./bin/www & node-inspector & gulp watch"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
