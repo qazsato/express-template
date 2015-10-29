@@ -2,6 +2,7 @@ var gulp        = require('gulp');
 var $           = require('gulp-load-plugins')();
 var del         = require('del');
 var runSequence = require('run-sequence');
+var browserSync = require('browser-sync');
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
@@ -59,6 +60,19 @@ gulp.task('watch', function () {
   gulp.watch(SRC_PATH.IMAGE, ['image']);
 });
 
-gulp.task('default', function () {
+gulp.task('sync', function() {
+  browserSync.init({
+    files: ['public/**/*.*', 'views/**/*.*'],
+    proxy: 'http://localhost:3000',
+    port: 4000,
+    open: true
+  });
+});
+
+gulp.task('development', function () {
+  runSequence('watch', 'sync');
+});
+
+gulp.task('production', function () {
   runSequence('clean', ['script', 'style', 'image']);
 });
