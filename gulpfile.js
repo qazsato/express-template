@@ -17,7 +17,8 @@ var SRC_PATH = {
   ROOT   : './public/src',
   SCRIPT : ['./public/src/**/*.js'],
   STYLE  : ['./public/src/**/*.+(css|scss)'],
-  IMAGE  : ['./public/src/**/*.+(jpg|jpeg|png|gif|svg)']
+  IMAGE  : ['./public/src/**/*.+(jpg|jpeg|png|gif|svg)'],
+  OTHER  : ['./public/src/**/*.*', '!./public/src/**/*.+(js|css|scss|jpg|jpeg|png|gif|svg)']
 };
 
 var DEST_PATH = {
@@ -50,6 +51,11 @@ gulp.task('image', function () {
       .pipe(gulp.dest(DEST_PATH.ROOT));
 });
 
+gulp.task('other', function () {
+  gulp.src(SRC_PATH.OTHER)
+      .pipe(gulp.dest(DEST_PATH.ROOT));
+});
+
 gulp.task('clean', function () {
   return del(DEST_PATH.ROOT);
 });
@@ -58,6 +64,7 @@ gulp.task('watch', function () {
   gulp.watch(SRC_PATH.SCRIPT, ['script']);
   gulp.watch(SRC_PATH.STYLE, ['style']);
   gulp.watch(SRC_PATH.IMAGE, ['image']);
+  gulp.watch(SRC_PATH.OTHER, ['other']);
 });
 
 gulp.task('sync', function() {
@@ -74,5 +81,5 @@ gulp.task('development', function () {
 });
 
 gulp.task('production', function () {
-  runSequence('clean', ['script', 'style', 'image']);
+  runSequence('clean', ['script', 'style', 'image', 'other']);
 });
