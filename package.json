@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "node-dev --debug ./bin/www & node-inspector & gulp development",
+    "start": "NODE_ENV=production node ./bin/www",
+    "dev": "NODE_ENV=development node-dev --debug ./bin/www & node-inspector & gulp development",
     "prod": "NODE_ENV=production gulp production"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
+    "config": "^1.16.0",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "express": "~4.13.1",
