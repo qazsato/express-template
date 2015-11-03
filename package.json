@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
-    "dev": "NODE_ENV=development node-dev --debug ./bin/www & node-inspector & gulp development",
-    "prod": "NODE_ENV=production gulp production"
+    "dev": "gulp build && node-dev --debug ./bin/www & node-inspector & gulp browse",
+    "prod": "NODE_ENV=production gulp build && NODE_ENV=production node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
