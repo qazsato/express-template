@@ -88,10 +88,10 @@ gulp.task('sync', function() {
   });
 });
 
-gulp.task('development', function () {
+gulp.task('browse', function () {
   runSequence('watch', 'sync');
 });
 
-gulp.task('production', function () {
+gulp.task('build', function () {
   runSequence('clean', ['js', 'css', 'sass', 'image', 'other']);
 });
