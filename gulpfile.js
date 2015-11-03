@@ -84,14 +84,14 @@ gulp.task('sync', function() {
     files: ['./public/**/*.*', './views/**/*.*'],
     proxy: 'http://localhost:3000',
     port: 4000,
-    open: true
+    open: false
   });
 });
 
-gulp.task('development', function () {
+gulp.task('browse', function () {
   runSequence('watch', 'sync');
 });
 
-gulp.task('production', function () {
+gulp.task('build', function () {
   runSequence('clean', ['js', 'css', 'sass', 'image', 'other']);
 });
