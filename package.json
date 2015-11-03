@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "node-dev --debug ./bin/www & node-inspector & gulp development",
-    "prod": "gulp production"
+    "prod": "NODE_ENV=production gulp production"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

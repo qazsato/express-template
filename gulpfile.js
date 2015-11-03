@@ -4,6 +4,8 @@ var del         = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 
+var ENV = process.env.NODE_ENV;
+
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
   'ff >= 30',
@@ -28,7 +30,7 @@ var DEST_PATH = {
 gulp.task('script', function () {
   gulp.src(SRC_PATH.SCRIPT)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
-      .pipe($.uglify())
+      .pipe($.if(ENV === 'production', $.uglify()))
       .pipe(gulp.dest(DEST_PATH.ROOT));
 });
 
@@ -37,7 +39,8 @@ gulp.task('style', function () {
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.if('*.css', $.csso()))
       .pipe($.if('*.css', $.cssmin()))
-      .pipe($.if('*.scss', $.sass({outputStyle: 'compressed'})))
+      .pipe($.if('*.scss' && ENV !== 'production', $.sass()))
+      .pipe($.if('*.scss' && ENV === 'production', $.sass({outputStyle: 'compressed'})))
       .pipe($.if('*.scss', $.cached('sass')))
       .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
       .pipe(gulp.dest(DEST_PATH.ROOT));
@@ -69,7 +72,7 @@ gulp.task('watch', function () {
 
 gulp.task('sync', function() {
   browserSync.init({
-    files: ['public/**/*.*', 'views/**/*.*'],
+    files: ['./public/**/*.*', './views/**/*.*'],
     proxy: 'http://localhost:3000',
     port: 4000,
     open: true
