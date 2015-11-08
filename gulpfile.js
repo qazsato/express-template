@@ -88,6 +88,12 @@ gulp.task('sync', function() {
   });
 });
 
+gulp.task('lint', function () {
+  gulp.src(['./public/src/**/*.js', '!./public/src/**/*min.js'])
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('jshint-stylish'));
+});
+
 gulp.task('browse', function () {
   runSequence('watch', 'sync');
 });
