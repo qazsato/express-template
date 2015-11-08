@@ -40,7 +40,9 @@ gulp.task('js', function () {
   gulp.src(SRC_PATH.JS)
       .pipe($.changed(DEST_PATH.ROOT))
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
+      .pipe($.sourcemaps.init())
       .pipe(browserified)
+      .pipe($.sourcemaps.write())
       .pipe($.if(ENV === 'production', $.uglify()))
       .pipe(gulp.dest(DEST_PATH.ROOT));
 });
@@ -59,7 +61,9 @@ gulp.task('sass', function () {
   gulp.src(SRC_PATH.SASS)
       .pipe($.cached('sass'))
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
+      .pipe($.sourcemaps.init())
       .pipe($.sass())
+      .pipe($.sourcemaps.write())
       .pipe($.if(ENV === 'production', $.cssmin()))
       .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
       .pipe(gulp.dest(DEST_PATH.ROOT));
