@@ -2,6 +2,8 @@ var gulp        = require('gulp');
 var $           = require('gulp-load-plugins')();
 var del         = require('del');
 var runSequence = require('run-sequence');
+var browserify  = require('browserify');
+var through2    = require('through2');
 var browserSync = require('browser-sync');
 
 var ENV = process.env.NODE_ENV;
@@ -29,9 +31,16 @@ var DEST_PATH = {
 };
 
 gulp.task('js', function () {
+  var browserified = through2.obj(function(file, encode, callback){
+    browserify(file.path).bundle(function(err, res){
+      file.contents = res;
+      callback(null, file);
+    });
+  });
   gulp.src(SRC_PATH.JS)
       .pipe($.changed(DEST_PATH.ROOT))
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
+      .pipe(browserified)
       .pipe($.if(ENV === 'production', $.uglify()))
       .pipe(gulp.dest(DEST_PATH.ROOT));
 });
