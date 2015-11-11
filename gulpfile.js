@@ -38,7 +38,6 @@ gulp.task('js', function () {
     });
   });
   gulp.src(SRC_PATH.JS)
-      .pipe($.changed(DEST_PATH.ROOT))
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.sourcemaps.init())
       .pipe(browserified)
@@ -49,7 +48,6 @@ gulp.task('js', function () {
 
 gulp.task('css', function () {
   gulp.src(SRC_PATH.CSS)
-      .pipe($.changed(DEST_PATH.ROOT))
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.csso())
       .pipe($.cssmin())
@@ -59,7 +57,6 @@ gulp.task('css', function () {
 
 gulp.task('sass', function () {
   gulp.src(SRC_PATH.SASS)
-      .pipe($.cached('sass'))
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.sourcemaps.init())
       .pipe($.sass())
