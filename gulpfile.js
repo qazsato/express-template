@@ -96,7 +96,7 @@ gulp.task('watch', function () {
 
 gulp.task('sync', function() {
   browserSync.init({
-    files: ['public/**/*.*', 'views/**/*.*'],
+    files: ['public/**/*.*', 'views/**/*.*', '!**/.*'],
     proxy: 'http://localhost:3000',
     port: 4000,
     open: true
