@@ -18,16 +18,16 @@ var AUTOPREFIXER_BROWSERS = [
 ];
 
 var SRC_PATH = {
-  ROOT   : './public/src',
-  JS     : ['./public/src/**/*.js'],
-  CSS    : ['./public/src/**/*.css'],
-  SASS   : ['./public/src/**/*.scss'],
-  IMAGE  : ['./public/src/**/*.+(jpg|jpeg|png|gif|svg)'],
-  OTHER  : ['./public/src/**/*.*', '!./public/src/**/*.+(js|css|scss|jpg|jpeg|png|gif|svg)']
+  ROOT   : 'public/src',
+  JS     : 'public/src/**/*.js',
+  CSS    : 'public/src/**/*.css',
+  SASS   : 'public/src/**/*.scss',
+  IMAGE  : 'public/src/**/*.+(jpg|jpeg|png|gif|svg)',
+  OTHER  : ['public/src/**/*.*', '!public/src/**/*.+(js|css|scss|jpg|jpeg|png|gif|svg)']
 };
 
 var DEST_PATH = {
-  ROOT   : './public/dist'
+  ROOT   : 'public/dist'
 };
 
 gulp.task('js', function () {
@@ -96,7 +96,7 @@ gulp.task('watch', function () {
 
 gulp.task('sync', function() {
   browserSync.init({
-    files: ['./public/**/*.*', './views/**/*.*'],
+    files: ['public/**/*.*', 'views/**/*.*'],
     proxy: 'http://localhost:3000',
     port: 4000,
     open: true
@@ -104,7 +104,7 @@ gulp.task('sync', function() {
 });
 
 gulp.task('lint', function () {
-  gulp.src(['./public/src/**/*.js', '!./public/src/**/*min.js'])
+  gulp.src(['public/src/**/*.js', '!public/src/**/*min.js'])
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'));
 });
