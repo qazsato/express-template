@@ -4,6 +4,8 @@ var del         = require('del');
 var runSequence = require('run-sequence');
 var browserify  = require('browserify');
 var through2    = require('through2');
+var fs          = require('fs');
+var path        = require('path');
 var browserSync = require('browser-sync');
 
 var ENV = process.env.NODE_ENV;
@@ -17,16 +19,17 @@ var AUTOPREFIXER_BROWSERS = [
   'android >= 4.4'
 ];
 
-var SRC_PATH = {
+var SRC = {
   ROOT   : 'public/src',
-  JS     : 'public/src/**/*.js',
-  CSS    : 'public/src/**/*.css',
-  SASS   : 'public/src/**/*.scss',
-  IMAGE  : 'public/src/**/*.+(jpg|jpeg|png|gif|svg)',
+  JS     : ['public/src/**/*.js'],
+  CSS    : ['public/src/**/*.css'],
+  SASS   : ['public/src/**/*.scss'],
+  IMAGE  : ['public/src/**/*.+(jpg|jpeg|png|gif|svg)', '!public/src/**/sprite/*.png'],
+  SPRITE : ['public/src/**/sprite/*.png'],
   OTHER  : ['public/src/**/*.*', '!public/src/**/*.+(js|css|scss|jpg|jpeg|png|gif|svg)']
 };
 
-var DEST_PATH = {
+var DEST = {
   ROOT   : 'public/dist'
 };
 
@@ -37,58 +40,59 @@ gulp.task('js', function () {
       callback(null, file);
     });
   });
-  gulp.src(SRC_PATH.JS)
+  gulp.src(SRC.JS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.sourcemaps.init())
       .pipe(browserified)
       .pipe($.sourcemaps.write())
       .pipe($.if(ENV === 'production', $.uglify()))
-      .pipe(gulp.dest(DEST_PATH.ROOT));
+      .pipe(gulp.dest(DEST.ROOT));
 });
 
 gulp.task('css', function () {
-  gulp.src(SRC_PATH.CSS)
+  gulp.src(SRC.CSS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.csso())
       .pipe($.cssmin())
       .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
-      .pipe(gulp.dest(DEST_PATH.ROOT));
+      .pipe(gulp.dest(DEST.ROOT));
 });
 
 gulp.task('sass', function () {
-  gulp.src(SRC_PATH.SASS)
+  gulp.src(SRC.SASS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.sourcemaps.init())
       .pipe($.sass())
       .pipe($.sourcemaps.write())
       .pipe($.if(ENV === 'production', $.cssmin()))
       .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
-      .pipe(gulp.dest(DEST_PATH.ROOT));
+      .pipe(gulp.dest(DEST.ROOT));
 });
 
 gulp.task('image', function () {
-  gulp.src(SRC_PATH.IMAGE)
-      .pipe($.changed(DEST_PATH.ROOT))
+  gulp.src(SRC.IMAGE)
+      .pipe($.changed(DEST.ROOT))
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.imagemin())
-      .pipe(gulp.dest(DEST_PATH.ROOT));
+      .pipe(gulp.dest(DEST.ROOT));
 });
 
 gulp.task('other', function () {
-  gulp.src(SRC_PATH.OTHER)
-      .pipe(gulp.dest(DEST_PATH.ROOT));
+  gulp.src(SRC.OTHER)
+      .pipe(gulp.dest(DEST.ROOT));
 });
 
 gulp.task('clean', function () {
-  return del(DEST_PATH.ROOT);
+  return del(DEST.ROOT);
 });
 
 gulp.task('watch', function () {
-  gulp.watch(SRC_PATH.JS, ['js']);
-  gulp.watch(SRC_PATH.CSS, ['css']);
-  gulp.watch(SRC_PATH.SASS, ['sass']);
-  gulp.watch(SRC_PATH.IMAGE, ['image']);
-  gulp.watch(SRC_PATH.OTHER, ['other']);
+  gulp.watch(SRC.JS, ['js']);
+  gulp.watch(SRC.CSS, ['css']);
+  gulp.watch(SRC.SASS, ['sass']);
+  gulp.watch(SRC.IMAGE, ['image']);
+  gulp.watch(SRC.SPRITE, ['sprite']);
+  gulp.watch(SRC.OTHER, ['other']);
 });
 
 gulp.task('sync', function() {
@@ -106,10 +110,52 @@ gulp.task('lint', function () {
     .pipe($.jshint.reporter('jshint-stylish'));
 });
 
+gulp.task('sprite', function () {
+  // spriteフォルダを再帰的に探索する
+  var spriteEach = function(p, callback) {
+    fs.readdir(p, function(err, files) {
+      if (err) return;
+      files.forEach(function(f) {
+        var fp = path.join(p, f);
+        if(fs.statSync(fp).isDirectory()) {
+          if (f === 'sprite') {
+            callback(fp);
+          } else {
+            spriteEach(fp, callback);
+          }
+        }
+      });
+    });
+  };
+  var getSrcPath = function (p) {
+    return p + '/*.png';
+  };
+  var getImgPath = function (p) {
+    return p.replace(SRC.ROOT, '/dist') + '/sprite.png';
+  };
+  var getDestImgPath = function (p) {
+    return p.replace('/src/', '/dist/');
+  };
+  var getDestCssPath = function (p) {
+    return p.replace('/images/', '/styles/');
+  };
+  spriteEach(SRC.ROOT, function(path) {
+    var spriteData = gulp.src(getSrcPath(path))
+                         .pipe($.spritesmith({
+                           imgName:   'sprite.png',
+                           imgPath:   getImgPath(path),
+                           cssName:   '_sprite.scss',
+                           cssFormat: 'scss'
+                         }));
+    spriteData.img.pipe(gulp.dest(getDestImgPath(path)));
+    spriteData.css.pipe(gulp.dest(getDestCssPath(path)));
+  });
+});
+
 gulp.task('browse', function () {
   runSequence('watch', 'sync');
 });
 
 gulp.task('build', function () {
-  runSequence('clean', ['js', 'css', 'sass', 'image', 'other']);
+  runSequence('clean', 'sprite', ['js', 'css', 'sass', 'image', 'other']);
 });

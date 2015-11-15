@@ -1,5 +1,19 @@
 @import './vendor/bootstrap';
+@import './common/sprite/sprite';
 
 body {
   padding-top: 70px;
+}
+
+#twitter {
+  @include sprite($twitter);
+}
+#facebook {
+  @include sprite($facebook);
+}
+#share {
+  @include sprite($share);
+}
+#rss {
+  @include sprite($rss);
 }
