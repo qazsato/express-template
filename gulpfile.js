@@ -125,7 +125,7 @@ gulp.task('sprite', function () {
     return p + '/*.png';
   };
   var getImgPath = function (p) {
-    return p.replace(SRC.ROOT, '/dist') + '/sprite.png';
+    return p.replace('public/src', '') + '/sprite.png';
   };
   var getDestImgPath = function (p) {
     return p.replace('/src/', '/dist/');
