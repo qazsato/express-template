@@ -42,9 +42,9 @@ gulp.task('js', function () {
   });
   gulp.src(SRC.JS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
-      .pipe($.sourcemaps.init())
+      // .pipe($.sourcemaps.init())
       .pipe(browserified)
-      .pipe($.sourcemaps.write())
+      // .pipe($.sourcemaps.write())
       .pipe($.if(ENV === 'production', $.uglify()))
       .pipe(gulp.dest(DEST.ROOT));
 });
@@ -61,11 +61,11 @@ gulp.task('css', function () {
 gulp.task('sass', function () {
   gulp.src(SRC.SASS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
-      .pipe($.sourcemaps.init())
+      // .pipe($.sourcemaps.init())
       .pipe($.sass())
-      .pipe($.sourcemaps.write())
       .pipe($.if(ENV === 'production', $.cssmin()))
       .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
+      // .pipe($.sourcemaps.write())
       .pipe(gulp.dest(DEST.ROOT));
 });
 
@@ -102,12 +102,6 @@ gulp.task('sync', function() {
     port: 4000,
     open: true
   });
-});
-
-gulp.task('lint', function () {
-  gulp.src(['public/src/**/*.js', '!public/src/**/*min.js'])
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('sprite', function () {
