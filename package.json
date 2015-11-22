@@ -2,6 +2,9 @@
   "name": "express-template",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "4.2.1"
+  },
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
     "dev": "gulp build && (node-dev --debug ./bin/www & node-inspector & gulp browse)",
