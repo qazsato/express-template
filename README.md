@@ -53,6 +53,7 @@ Node.jsのWebアプリケーションフレームワークExpressの雛形
     ├── public
     │   ├── dist
     │   └── src
+    │       ├── components
     │       ├── images
     │       ├── scripts
     │       └── styles
@@ -78,3 +79,18 @@ Node.jsのWebアプリケーションフレームワークExpressの雛形
 - Babel
 
   https://babeljs.io/
+
+## TODO
+- [ ]NodeのJSをES6に書き換え
+- [ ]npm scriptsを他にも用意
+- [ ]スプライト画像のフォルダ構成
+- [ ]sourcemapsが正しく参照できない問題解消
+- [ ]テンプレートエンジンを決める(jadeとejs)
+- [ ]core.scss的なもの用意する
+- [ ]browserifyの読み込みどうする?絶対パス?
+- [ ]travis ci使う?
+- [ ]herokuにデプロイする?
+- [ ]画像にフィンガープリントつける?
+- [ ]angular/react使う?mongo使う?MEAN?
+- [ ]linter用意する?
+- [ ]テスト環境用意する?karma?
