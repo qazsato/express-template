@@ -11,12 +11,13 @@ var browserSync = require('browser-sync');
 var ENV = process.env.NODE_ENV;
 
 var AUTOPREFIXER_BROWSERS = [
-  'ie >= 10',
-  'ff >= 30',
-  'chrome >= 34',
-  'safari >= 7',
+  'ie >= 9',
+  'last 2 ff versions',
+  'last 2 edge versions',
+  'last 2 chrome versions',
+  'last 2 safari versions',
   'ios >= 7',
-  'android >= 4.4'
+  'android >= 4.0'
 ];
 
 var SRC = {
