@@ -1,35 +1,37 @@
-var express = require('express');
-var router = express.Router();
-var request = require('request');
-var async = require('async');
+'use strict';
+
+const express = require('express');
+const router = express.Router();
+const request = require('request');
+const async = require('async');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
 
   async.series(
     [
-      function (callback) {
+      callback => {
         // twitter API
-        var url = 'http://urls.api.twitter.com/1/urls/count.json?url=https://www.google.com/';
-        request(url, function (error, response, body) {
-          if (!error && response.statusCode == 200) {
+        let url = 'http://urls.api.twitter.com/1/urls/count.json?url=https://www.google.com/';
+        request(url, (error, response, body) => {
+          if (!error && response.statusCode === 200) {
             console.log(JSON.parse(body));
           }
           callback();
         });
       },
-      function (callback) {
+      callback => {
         // Facebook API
-        var url = 'http://graph.facebook.com/?id=https://www.google.com/';
-        request(url, function (error, response, body) {
-          if (!error && response.statusCode == 200) {
+        let url = 'http://graph.facebook.com/?id=https://www.google.com/';
+        request(url, (error, response, body) => {
+          if (!error && response.statusCode === 200) {
             console.log(JSON.parse(body));
           }
           callback();
         });
       }
     ],
-    function (err, results) {
+    (err, results) => {
       if (err) throw err;
       res.render('index', { title: 'Express' });
     });
