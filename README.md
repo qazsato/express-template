@@ -83,7 +83,7 @@ Node.jsのWebアプリケーションフレームワークExpressの雛形
 ## TODO
 - [x] NodeのJSをES6に書き換え
 - [x] npm scriptsを他にも用意
-- [ ] スプライト画像のフォルダ構成
+- [x] スプライト画像のフォルダ構成
 - [ ] sourcemapsが正しく参照できない問題解消
 - [x] テンプレートエンジンを決める(jadeとejs)
 - [ ] core.scss的なもの用意する
@@ -95,3 +95,4 @@ Node.jsのWebアプリケーションフレームワークExpressの雛形
 - [ ] linter用意する?
 - [ ] テスト環境用意する?karma?
 - [ ] strongmodeにする?
+- [ ] デーモンはpm2?forever?

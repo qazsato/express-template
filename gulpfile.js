@@ -34,6 +34,11 @@ var DEST = {
   ROOT   : 'public/dist'
 };
 
+/**
+ * JSタスク。
+ * srcフォルダの.jsに対し、require/uglifyをおこないdistフォルダへ出力します。
+ * このタスクは開発・本番ともに使用します。(build/watchタスクでの使用を想定)
+ */
 gulp.task('js', function () {
   var browserified = through2.obj(function(file, encode, callback){
     browserify(file.path).bundle(function(err, res){
@@ -50,6 +55,11 @@ gulp.task('js', function () {
       .pipe(gulp.dest(DEST.ROOT));
 });
 
+/**
+ * CSSタスク。
+ * srcフォルダの.cssに対し、圧縮・最適化をおこないdistフォルダへ出力します。
+ * このタスクは開発・本番ともに使用します。(build/watchタスクでの使用を想定)
+ */
 gulp.task('css', function () {
   gulp.src(SRC.CSS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
@@ -59,6 +69,11 @@ gulp.task('css', function () {
       .pipe(gulp.dest(DEST.ROOT));
 });
 
+/**
+ * Sassタスク。
+ * srcフォルダの.scssに対し、コンパイルをおこないdistフォルダへ.cssを出力します。
+ * このタスクは開発・本番ともに使用します。(build/watchタスクでの使用を想定)
+ */
 gulp.task('sass', function () {
   gulp.src(SRC.SASS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
@@ -70,6 +85,11 @@ gulp.task('sass', function () {
       .pipe(gulp.dest(DEST.ROOT));
 });
 
+/**
+ * Imageタスク。
+ * srcフォルダの画像(スプライト画像除く)に対し、画像圧縮処理をおこないdistフォルダへ出力します。
+ * このタスクは開発・本番ともに使用します。(build/watchタスクでの使用を想定)
+ */
 gulp.task('image', function () {
   gulp.src(SRC.IMAGE)
       .pipe($.changed(DEST.ROOT))
@@ -78,33 +98,11 @@ gulp.task('image', function () {
       .pipe(gulp.dest(DEST.ROOT));
 });
 
-gulp.task('other', function () {
-  gulp.src(SRC.OTHER)
-      .pipe(gulp.dest(DEST.ROOT));
-});
-
-gulp.task('clean', function () {
-  return del(DEST.ROOT);
-});
-
-gulp.task('watch', function () {
-  gulp.watch(SRC.JS, ['js']);
-  gulp.watch(SRC.CSS, ['css']);
-  gulp.watch(SRC.SASS, ['sass']);
-  gulp.watch(SRC.IMAGE, ['image']);
-  gulp.watch(SRC.SPRITE, ['sprite']);
-  gulp.watch(SRC.OTHER, ['other']);
-});
-
-gulp.task('sync', function() {
-  browserSync.init({
-    files: ['public/**/*.*', 'views/**/*.*', '!**/.*'],
-    proxy: 'http://localhost:3000',
-    port: 4000,
-    open: true
-  });
-});
-
+/**
+ * Spriteタスク
+ * spriteフォルダ直下にある画像を、スプライト画像に変換しdistフォルダへ出力します。
+ * このタスクは開発・本番ともに使用します。(build/watchタスクでの使用を想定)
+ */
 gulp.task('sprite', function () {
   // spriteフォルダを再帰的に探索する
   var spriteEach = function(p, callback) {
@@ -122,35 +120,84 @@ gulp.task('sprite', function () {
       });
     });
   };
-  var getSrcPath = function (p) {
-    return p + '/*.png';
-  };
-  var getImgPath = function (p) {
-    return p.replace('public/src', '') + '/sprite.png';
-  };
-  var getDestImgPath = function (p) {
-    return p.replace('/src/', '/dist/');
-  };
-  var getDestCssPath = function (p) {
-    return p.replace('/images/', '/styles/');
-  };
   spriteEach(SRC.ROOT, function(path) {
-    var spriteData = gulp.src(getSrcPath(path))
+    var srcPath = path + '/*.png';                                // 対象となる画像群
+    var imgPath = path.replace('public/src', '') + '/sprite.png'; // 出力する画像名称
+    var destImgPath = path.replace('/src/', '/dist/');            // スプライト画像の出力先
+    var destCssPath = path.replace('/images/', '/styles/');       // スプライトCSSの出力先
+    var spriteData = gulp.src(srcPath)
                          .pipe($.spritesmith({
                            imgName:   'sprite.png',
-                           imgPath:   getImgPath(path),
+                           imgPath:   imgPath,
                            cssName:   '_sprite.scss',
                            cssFormat: 'scss'
                          }));
-    spriteData.img.pipe(gulp.dest(getDestImgPath(path)));
-    spriteData.css.pipe(gulp.dest(getDestCssPath(path)));
+    spriteData.img.pipe(gulp.dest(destImgPath));
+    spriteData.css.pipe(gulp.dest(destCssPath));
   });
 });
 
+/**
+ * Otherタスク。
+ * js/css/sass/imageを除いたファイルに対し、distフォルダへ出力します。
+ * このタスクは開発・本番ともに使用します。(build/watchタスクでの使用を想定)
+ */
+gulp.task('other', function () {
+  gulp.src(SRC.OTHER)
+      .pipe(gulp.dest(DEST.ROOT));
+});
+
+/**
+ * cleanタスク。
+ * distフォルダ内の全ファイルを削除します。
+ * このタスクは開発・本番ともに使用します。(buildタスクでの使用を想定)
+ */
+gulp.task('clean', function () {
+  return del(DEST.ROOT);
+});
+
+/**
+ * browserSyncタスク。
+ * ローカルと同期し、自動でブラウザリロードをおこないます。
+ * このタスクは開発時のみ使用します。(browseタスクでの使用を想定)
+ */
+gulp.task('sync', function() {
+  browserSync.init({
+    files: ['public/**/*.*', 'views/**/*.*', '!**/.*'],
+    proxy: 'http://localhost:3000',
+    port: 4000,
+    open: true
+  });
+});
+
+/**
+ * browseタスク。
+ * ファイルの変更を監視し、変更を検知したら自動でブラウザリロードを行います。
+ * このタスクは開発時のみ使用します。
+ */
 gulp.task('browse', function () {
   runSequence('watch', 'sync');
 });
 
+/**
+ * watchタスク。
+ * srcフォルダ内の全ファイルを監視し、変更があった場合各タスクを実行します。
+ * このタスクは開発時のみ使用します。
+ */
+gulp.task('watch', function () {
+  gulp.watch(SRC.JS, ['js']);
+  gulp.watch(SRC.CSS, ['css']);
+  gulp.watch(SRC.SASS, ['sass']);
+  gulp.watch(SRC.IMAGE, ['image']);
+  gulp.watch(SRC.SPRITE, ['sprite']);
+  gulp.watch(SRC.OTHER, ['other']);
+});
+
+/**
+ * buildタスク。
+ * distフォルダをクリーンしたのち、srcフォルダの各ファイルをdistフォルダに出力します。
+ * このタスクは開発・本番ともに使用します。
+ */
 gulp.task('build', function () {
   runSequence('clean', 'sprite', ['js', 'css', 'sass', 'image', 'other']);
 });
