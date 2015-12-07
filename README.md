@@ -82,10 +82,10 @@ Node.jsのWebアプリケーションフレームワークExpressの雛形
 
 ## TODO
 - [x] NodeのJSをES6に書き換え
-- [ ] npm scriptsを他にも用意
+- [x] npm scriptsを他にも用意
 - [ ] スプライト画像のフォルダ構成
 - [ ] sourcemapsが正しく参照できない問題解消
-- [ ] テンプレートエンジンを決める(jadeとejs)
+- [x] テンプレートエンジンを決める(jadeとejs)
 - [ ] core.scss的なもの用意する
 - [ ] browserifyの読み込みどうする?絶対パス?
 - [ ] travis ci使う?
