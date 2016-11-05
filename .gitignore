@@ -1,6 +1,4 @@
-
 node_modules/
-
 public/dist/
-
 npm-debug.log
+npm-debug.log.*
