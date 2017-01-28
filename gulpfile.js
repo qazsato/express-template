@@ -2,7 +2,6 @@ const gulp              = require('gulp');
 const $                 = require('gulp-load-plugins')();
 const del               = require('del');
 const runSequence       = require('run-sequence');
-const browserSync       = require('browser-sync');
 const postcssNested     = require('postcss-nested');
 const postcssImport     = require('postcss-import');
 const postcssSimpleVars = require('postcss-simple-vars');
@@ -78,20 +77,6 @@ gulp.task('views', () => {
 });
 
 gulp.task('clean', () => del(DEST.ROOT));
-
-/**
- * browserSyncタスク。
- * ローカルと同期し、自動でブラウザリロードをおこないます。
- * このタスクは開発時のみ使用します。
- */
-gulp.task('sync', function() {
-  browserSync.init({
-    files: ['public/**/*.*', 'views/**/*.*', '!**/.*'],
-    proxy: 'http://localhost:3000',
-    port: 4000,
-    open: true
-  });
-});
 
 /**
  * Watchタスク。
