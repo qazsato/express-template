@@ -39,6 +39,12 @@ Node.jsのWebアプリケーションフレームワークExpressの雛形
     2. 左上にある再生ボタンを選択します。
     3. [http://localhost:3000](http://localhost:3000)で画面が表示されれば起動成功です。
 
+## Test
+
+1. `Cmd + Shift + p`でコマンドパレットを開きます。
+2. `task`と入力し、`Tasks: Run Test Task`を選択します。
+3. テストのカバレッジがHTMLで出力されます。
+
 ## Directory
 
     .
