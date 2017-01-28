@@ -7,8 +7,6 @@ const postcssNested     = require('postcss-nested');
 const postcssImport     = require('postcss-import');
 const postcssSimpleVars = require('postcss-simple-vars');
 
-const ENV = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'development';
-
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 10',
   'last 2 ff versions',
@@ -58,23 +56,17 @@ gulp.task('images', () => {
 gulp.task('scripts', () => {
   gulp.src(SRC.SCRIPTS)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
-      .pipe($.if(ENV === 'development', $.sourcemaps.init()))
-      .pipe($.cached('scripts'))
       .pipe($.babel({presets: ['es2015']}))
       .pipe($.uglify())
-      .pipe($.remember('scripts'))
-      .pipe($.if(ENV === 'development', $.sourcemaps.write('../sourcemaps')))
       .pipe(gulp.dest(DEST.SCRIPTS));
 });
 
 gulp.task('styles', () => {
   gulp.src(SRC.STYLES)
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
-      .pipe($.if(ENV === 'development', $.sourcemaps.init()))
       .pipe($.postcss([postcssImport, postcssNested, postcssSimpleVars]))
       .pipe($.cssmin())
       .pipe($.autoprefixer({browsers: AUTOPREFIXER_BROWSERS}))
-      .pipe($.if(ENV === 'development', $.sourcemaps.write('../sourcemaps')))
       .pipe(gulp.dest(DEST.STYLES));
 });
 

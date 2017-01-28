@@ -7,7 +7,6 @@ const favicon      = require('serve-favicon');
 const logger       = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser   = require('body-parser');
-const config       = require('config');
 const compression  = require('compression');
 
 // create app
@@ -28,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public/dist'), {maxAge: 86400000 * 
 
 // define routes
 app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
 
 // error handlers
 app.use((req, res, next) => {
