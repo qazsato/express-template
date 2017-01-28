@@ -6,6 +6,9 @@
   },
   "extends": "eslint:recommended",
   "globals": {
+    "describe": false,
+    "it": false,
+    "expect": false
   },
   "rules": {
   }
