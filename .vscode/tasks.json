@@ -8,6 +8,11 @@
     "suppressTaskName": true,
     "tasks": [
         {
+            "taskName": "install",
+            "args": ["install"],
+            "isBuildCommand": false
+        },
+        {
             "taskName": "dev",
             "args": ["run", "dev"],
             "isBuildCommand": true
