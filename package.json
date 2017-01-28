@@ -11,7 +11,8 @@
     "start": "cross-env NODE_ENV=production node ./bin/www",
     "dev": "cross-env NODE_ENV=development gulp build",
     "prd": "cross-env NODE_ENV=production gulp build",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "test": "karma start"
   },
   "dependencies": {
     "axios": "0.15.3",
@@ -45,6 +46,12 @@
     "gulp-plumber": "1.1.0",
     "gulp-postcss": "6.3.0",
     "gulp-uglify": "2.0.1",
+    "jasmine-core": "2.5.2",
+    "karma": "1.4.0",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-cli": "1.0.1",
+    "karma-coverage": "1.1.1",
+    "karma-jasmine": "1.1.0",
     "postcss-import": "9.1.0",
     "postcss-nested": "1.0.0",
     "postcss-simple-vars": "3.0.0",
