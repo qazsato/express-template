@@ -2,6 +2,7 @@
     "recommendations": [
         "EditorConfig.EditorConfig",
         "dbaeumer.vscode-eslint",
-        "shinnn.stylelint"
+        "shinnn.stylelint",
+        "stevencl.addDocComments"
     ]
 }
