@@ -43,7 +43,7 @@ Node.jsのWebアプリケーションフレームワークExpressの雛形
 
 1. `Cmd + Shift + p`でコマンドパレットを開きます。
 2. `task`と入力し、`Tasks: Run Test Task`を選択します。
-3. テストのカバレッジがHTMLで出力されます。
+3. テストの実行結果がコンソールに出力されます。
 
 ## Directory
 
