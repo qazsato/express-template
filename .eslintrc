@@ -7,8 +7,7 @@
   "extends": "eslint:recommended",
   "globals": {
     "describe": false,
-    "it": false,
-    "expect": false
+    "it": false
   },
   "rules": {
   }
