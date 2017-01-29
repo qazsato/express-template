@@ -108,5 +108,5 @@ gulp.task('build', () => {
  */
 gulp.task('test', () => {
   return gulp.src('tests/**/*.js')
-        .pipe($.mocha());
+             .pipe($.mocha());
 });
