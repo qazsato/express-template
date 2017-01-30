@@ -20,7 +20,6 @@ const SRC = {
   ROOT       : './public/src/*.*',
   COMPONENTS : './public/src/components/**/*.*',
   IMAGES     : './public/src/images/**/*.+(jpg|jpeg|png|gif|svg)',
-  SCRIPTS    : './public/src/scripts/**/*.js',
   STYLES     : './public/src/styles/**/*.css',
   VIEWS      : './public/src/views/**/*.html'
 };
@@ -29,7 +28,6 @@ const DEST = {
   ROOT       : './public/dist',
   COMPONENTS : './public/dist/components',
   IMAGES     : './public/dist/images',
-  SCRIPTS    : './public/dist/scripts',
   STYLES     : './public/dist/styles',
   VIEWS      : './public/dist/views'
 };
@@ -50,14 +48,6 @@ gulp.task('images', () => {
       .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
       .pipe($.imagemin())
       .pipe(gulp.dest(DEST.IMAGES));
-});
-
-gulp.task('scripts', () => {
-  gulp.src(SRC.SCRIPTS)
-      .pipe($.plumber({errorHandler: $.notify.onError('Error: <%= error.message %>')}))
-      .pipe($.babel({presets: ['es2015']}))
-      .pipe($.uglify())
-      .pipe(gulp.dest(DEST.SCRIPTS));
 });
 
 gulp.task('styles', () => {
@@ -87,7 +77,6 @@ gulp.task('watch', () => {
   gulp.watch(SRC.ROOT, ['root']);
   gulp.watch(SRC.COMPONENTS, ['components']);
   gulp.watch(SRC.IMAGES, ['images']);
-  gulp.watch(SRC.SCRIPTS, ['scripts']);
   gulp.watch(SRC.STYLES, ['styles']);
   gulp.watch(SRC.VIEWS, ['views']);
 });
@@ -98,7 +87,7 @@ gulp.task('watch', () => {
  * このタスクは開発・本番ともに使用します。
  */
 gulp.task('build', () => {
-  runSequence('clean', ['root', 'components', 'images', 'scripts', 'styles', 'views']);
+  runSequence('clean', ['root', 'components', 'images', 'styles', 'views']);
 });
 
 /**
