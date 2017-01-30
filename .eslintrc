@@ -4,11 +4,34 @@
     "browser": true,
     "node": true
   },
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "extends": "eslint:recommended",
   "globals": {
     "describe": false,
     "it": false
   },
   "rules": {
+    "quotes": [2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+    "arrow-body-style": "warn",
+    "arrow-parens": "warn",
+    "arrow-spacing": "warn",
+    "generator-star-spacing": "warn",
+    "no-duplicate-imports": "warn",
+    "no-unused-vars": "warn",
+    "no-useless-computed-key": "warn",
+    "no-useless-constructor": "warn",
+    "no-useless-rename": "warn",
+    "no-var": "warn",
+    "object-shorthand": "warn",
+    "prefer-arrow-callback": "warn",
+    "prefer-const": "warn",
+    "prefer-rest-params": "warn",
+    "prefer-spread": "warn",
+    "prefer-template": "warn",
+    "rest-spread-spacing": "warn",
+    "template-curly-spacing": "warn",
+    "yield-star-spacing": "warn"
   }
 }
