@@ -1,6 +1,4 @@
 const webpack = require('webpack');
-const ENV = process.env.NODE_ENV;
-const devtool = ENV === 'development' ? 'source-map' : '';
 
 module.exports = {
   entry: {
@@ -21,7 +19,7 @@ module.exports = {
       }
     ]
   },
-  devtool,
+  devtool: 'source-map',
   resolve: {
     extensions: ['.js']
   },
@@ -31,6 +29,7 @@ module.exports = {
       jQuery: 'jquery'
     }),
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: (process.env.NODE_ENV !== 'production'),
       compress: {
         warnings: false
       }
