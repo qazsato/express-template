@@ -1,6 +1,6 @@
 {
   "name": "express-template",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "engines": {
     "node": "6.9.4",
@@ -9,9 +9,9 @@
   "scripts": {
     "postinstall": "cross-env NODE_ENV=production gulp build & webpack",
     "start": "cross-env NODE_ENV=production node ./bin/www",
-    "dev": "cross-env NODE_ENV=development gulp build && webpack && gulp watch & webpack --watch",
-    "tst": "cross-env NODE_ENV=testing gulp build && webpack && gulp watch & webpack --watch",
-    "prd": "cross-env NODE_ENV=production gulp build && webpack && gulp watch & webpack --watch",
+    "dev": "cross-env NODE_ENV=development webpack --watch & gulp build && gulp watch",
+    "tst": "cross-env NODE_ENV=testing webpack --watch & gulp build && gulp watch",
+    "prd": "cross-env NODE_ENV=production webpack --watch & gulp build && gulp watch",
     "test": "gulp test"
   },
   "dependencies": {
