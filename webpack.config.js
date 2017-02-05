@@ -4,26 +4,26 @@ const devtool = ENV === 'development' ? 'source-map' : '';
 
 module.exports = {
   entry: {
-    'index': __dirname + '/public/src/scripts/index.js'
+    'index': './public/src/scripts/index.js'
   },
   output: {
-    filename: __dirname + '/public/dist/scripts/[name].bundle.js'
+    filename: './public/dist/scripts/[name].bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query:{
+        options: {
           presets: ['es2015']
         }
       }
     ]
   },
-  devtool: devtool,
+  devtool,
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['.js']
   },
   plugins: [
     new webpack.ProvidePlugin({
