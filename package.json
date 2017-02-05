@@ -10,6 +10,7 @@
     "postinstall": "cross-env NODE_ENV=production gulp build & webpack",
     "start": "cross-env NODE_ENV=production node ./bin/www",
     "dev": "cross-env NODE_ENV=development gulp build && webpack && gulp watch & webpack --watch",
+    "tst": "cross-env NODE_ENV=testing gulp build && webpack && gulp watch & webpack --watch",
     "prd": "cross-env NODE_ENV=production gulp build && webpack && gulp watch & webpack --watch",
     "test": "gulp test"
   },
