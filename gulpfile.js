@@ -95,7 +95,4 @@ gulp.task('build', () => {
  * testsフォルダ配下のテストコードを実行します。
  * このタスクはテスト時に使用します。
  */
-gulp.task('test', () => {
-  return gulp.src('tests/**/*.js')
-             .pipe($.mocha());
-});
+gulp.task('test', () => gulp.src('tests/**/*.js').pipe($.mocha()));
