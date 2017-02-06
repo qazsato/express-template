@@ -9,9 +9,9 @@
   "scripts": {
     "postinstall": "cross-env NODE_ENV=production webpack & gulp build",
     "start": "cross-env NODE_ENV=production node ./bin/www",
-    "dev": "cross-env NODE_ENV=development webpack --watch & gulp build && gulp watch",
-    "tst": "cross-env NODE_ENV=testing webpack --watch & gulp build && gulp watch",
-    "prd": "cross-env NODE_ENV=production webpack --watch & gulp build && gulp watch",
+    "dev": "parallelshell \"cross-env NODE_ENV=development webpack --watch\" \"gulp\"",
+    "tst": "parallelshell \"cross-env NODE_ENV=testing webpack --watch\" \"gulp\"",
+    "prd": "parallelshell \"cross-env NODE_ENV=production webpack --watch\" \"gulp\"",
     "test": "gulp test"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "gulp-notify": "3.0.0",
     "gulp-plumber": "1.1.0",
     "gulp-postcss": "6.3.0",
+    "parallelshell": "2.0.0",
     "postcss-import": "9.1.0",
     "postcss-nested": "1.0.0",
     "postcss-simple-vars": "3.0.0",

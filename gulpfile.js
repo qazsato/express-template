@@ -69,6 +69,20 @@ gulp.task('views', () => {
 gulp.task('clean', () => del(DEST.ROOT));
 
 /**
+ * Defaultタスク。
+ * BuildタスクとWatchタスクを実行します。
+ * このタスクは開発時のみ使用します。
+ */
+gulp.task('default', ['build', 'watch']);
+
+/**
+ * Buildタスク。
+ * distフォルダをクリーンしたのち、srcフォルダの各ファイルをdistフォルダに出力します。
+ * このタスクは開発・本番ともに使用します。
+ */
+gulp.task('build', () => runSequence('clean', ['root', 'components', 'images', 'styles', 'views']));
+
+/**
  * Watchタスク。
  * srcフォルダ内の全ファイルを監視し、変更があった場合各タスクを実行します。
  * このタスクは開発時のみ使用します。
@@ -79,15 +93,6 @@ gulp.task('watch', () => {
   gulp.watch(SRC.IMAGES, ['images']);
   gulp.watch(SRC.STYLES, ['styles']);
   gulp.watch(SRC.VIEWS, ['views']);
-});
-
-/**
- * Buildタスク。
- * distフォルダをクリーンしたのち、srcフォルダの各ファイルをdistフォルダに出力します。
- * このタスクは開発・本番ともに使用します。
- */
-gulp.task('build', () => {
-  runSequence('clean', ['root', 'components', 'images', 'styles', 'views']);
 });
 
 /**
