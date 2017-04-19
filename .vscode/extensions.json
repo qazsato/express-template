@@ -3,6 +3,6 @@
     "EditorConfig.EditorConfig",
     "dbaeumer.vscode-eslint",
     "shinnn.stylelint",
-    "stevencl.addDocComments"
+    "bradleymeck.codecover"
   ]
 }
