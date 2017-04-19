@@ -96,8 +96,23 @@ gulp.task('watch', () => {
 });
 
 /**
+ * Pre Testタスク。
+ * テスト実行前にカバレッジファイルを生成します。
+ * このタスクはテスト時に使用します。
+ */
+gulp.task('pre-test', () => {
+  return gulp.src('routes/**/*.js')
+             .pipe($.istanbul())
+             .pipe($.istanbul.hookRequire());
+});
+
+/**
  * Testタスク。
  * testsフォルダ配下のテストコードを実行します。
  * このタスクはテスト時に使用します。
  */
-gulp.task('test', () => gulp.src('tests/**/*.js').pipe($.mocha()));
+gulp.task('test', ['pre-test'], () => {
+  gulp.src('tests/**/*.js')
+      .pipe($.mocha())
+      .pipe($.istanbul.writeReports());
+});
